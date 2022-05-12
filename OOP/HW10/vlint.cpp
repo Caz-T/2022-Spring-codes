@@ -7,6 +7,8 @@ vlint::vlint()
 }
 vlint::vlint(long long& another)
 {
+    digit.clear();
+    sign = true;
     if (another < 0) sign = false;
     while (another)
     {
@@ -14,7 +16,11 @@ vlint::vlint(long long& another)
         another = another / 10;
     }
 }
-vlint::vlint(vlint &another) : sign(another.sign) {for (auto iter = another.digit.rend(); iter != another.digit.rbegin(); iter++) digit.emplace_back(*iter);}
+vlint::vlint(vlint &another) : sign(another.sign)
+{
+    digit.clear();
+    for (auto iter = another.digit.rend(); iter != another.digit.rbegin(); iter++) digit.emplace_back(*iter);
+}
 
 int vlint::operator[](int n) {return digit[n];}
 vlint vlint::operator+(vlint another)
