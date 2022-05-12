@@ -12,7 +12,6 @@ public:
     vlint(vlint& another);
     ~vlint() = default;
 
-    int operator[](int n);
     vlint operator+ (vlint another);
     vlint operator- (vlint another);
 

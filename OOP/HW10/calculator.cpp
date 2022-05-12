@@ -7,6 +7,7 @@ using namespace std;
 calculator::calculator()
 {
     calculate();
+    system("pause");
 }
 void calculator::calculate()
 {
