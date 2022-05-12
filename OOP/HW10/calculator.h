@@ -6,6 +6,7 @@ class calculator {
 public:
     calculator();
     ~calculator() = default;
+    static void calculate();
 };
 
 

@@ -3,15 +3,20 @@
 #include <iostream>
 using namespace std;
 
+
 calculator::calculator()
 {
-    cout << "Input two numbers:" << endl;
+    calculate();
+}
+void calculator::calculate()
+{
+    cout << "Input two numbers connected by a sign:" << endl;
     vlint opera, operb;
     string sgn;
     cin >> opera >> sgn >> operb;
-    assert(sgn.length() == 1);
-    cout << opera << " " << sgn << " " << operb << " = ";
+    cout << "= ";
     if (sgn == "+") opera = opera + operb;
     else opera = opera - operb;
-    cout << opera;
+    cout << opera << endl;
 }
+

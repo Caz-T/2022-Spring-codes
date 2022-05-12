@@ -9,7 +9,6 @@ class vlint // vlint stands for very long int
 {
 public:
     vlint();
-    vlint(long long& another);
     vlint(vlint& another);
     ~vlint() = default;
 

@@ -5,17 +5,6 @@ vlint::vlint()
 {
     digit.emplace_back(0);
 }
-vlint::vlint(long long& another)
-{
-    digit.clear();
-    sign = true;
-    if (another < 0) sign = false;
-    while (another)
-    {
-        digit.emplace_back(another % 10);
-        another = another / 10;
-    }
-}
 vlint::vlint(vlint &another) : sign(another.sign)
 {
     digit.clear();
@@ -34,7 +23,7 @@ vlint vlint::operator+(vlint another)
     {
         if (sign) ans.digit[i] += digit[i];
         else ans.digit[i] -= digit[i];
-        if (ans.digit[i] > 10)
+        if (ans.digit[i] >= 10)
         {
             ans.digit[i] -= 10;
             ans.digit[i + 1]++;
@@ -51,7 +40,7 @@ vlint vlint::operator+(vlint another)
         for (int & i : ans.digit) i = -i;
         for (int i = 0; i < ans.digit.size() - 1; i++)
         {
-            if (ans.digit[i] > 10)
+            if (ans.digit[i] >= 10)
             {
                 ans.digit[i] -= 10;
                 ans.digit[i + 1]++;
@@ -77,9 +66,17 @@ vlint vlint::operator-(vlint another)
 
 ostream& operator<< (ostream& out, vlint& to_write)
 {
-    if (not (to_write.sign)) out << "-";
     auto iter = to_write.digit.rbegin();
-    while (*iter == 0) iter++;
+    while (*iter == 0)
+    {
+        iter++;
+        if (iter == to_write.digit.rend())
+        {
+            out << 0;
+            return out;
+        }
+    }
+    if (not (to_write.sign)) out << "-";
     for (;iter != to_write.digit.rend(); iter++) out << *iter;
     return out;
 }
