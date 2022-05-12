@@ -1,4 +1,5 @@
 #include "vlint.h"
+#include <string>
 
 vlint::vlint()
 {
@@ -67,3 +68,23 @@ vlint vlint::operator-(vlint another)
     return ans;
 }
 
+ostream& operator<< (ostream& out, vlint& to_write)
+{
+    if (to_write.sign) out << "-";
+    for (auto iter = to_write.digit.rend(); iter != to_write.digit.rbegin(); iter++) out << *iter;
+    return out;
+}
+
+istream& operator>> (istream& in, vlint& to_read)
+{
+    string str;
+    in >> str;
+    // check legality
+    if (str[0] == '-')
+    {
+        to_read.sign = false;
+        str = str.substr(1);
+    }
+    for (int i = str.length() - 1; i >= 0; i--) to_read.digit.emplace_back(str[i]-48);
+    return in;
+}

@@ -3,7 +3,9 @@
 
 
 class calculator {
-
+public:
+    calculator();
+    ~calculator() = default;
 };
 
 
