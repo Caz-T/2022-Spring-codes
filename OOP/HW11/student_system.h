@@ -13,7 +13,7 @@ class student_system
 {
 public:
     student_system();
-    ~student_system();
+    ~student_system() = default;
 
 private:
     map<long long, int> students;

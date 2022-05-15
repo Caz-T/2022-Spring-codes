@@ -13,12 +13,11 @@ student_system::student_system()
     int command;
     while (true)
     {
-        cout << R"(
-STUDENT SCORE MANAGEMENT SYSTEM
+        cout << R"(STUDENT SCORE MANAGEMENT SYSTEM
 -------------------------------
-    INPUT A COMMAND(1~8) BELOW
-        INPUT 0 FOR HELP
-        INPUT -1 TO QUIT
+  INPUT A COMMAND(1~8) BELOW
+      INPUT 0 FOR HELP
+      INPUT -1 TO QUIT
 )";
         cin >> command;
         string tempstr;
@@ -29,12 +28,12 @@ STUDENT SCORE MANAGEMENT SYSTEM
             case 1:
                 cout << "Provide a path from which to read data: ";
                 cin >> tempstr;
-                while (!read_file(tempstr))
+                while (tempstr != "CANCEL" and !read_file(tempstr))
                 {
-                    cout << "Error in opening file!\nProvide another path from which to read data: ";
+                    cout << "Error in opening file!\nProvide another path from which to read data, or type in CANCEL: ";
                     cin >> tempstr;
                 }
-                cout << "Data read from file!" << endl;
+                if (tempstr != "CANCEL") cout << "Data read from file!" << endl;
                 break;
             case 2:
                 cout << "Provide a student number and a score: ";
@@ -43,7 +42,7 @@ STUDENT SCORE MANAGEMENT SYSTEM
                 {
                     cout << "Record already exists: Student " << templl << " has score "
                          << students.find(templl)->second << "\nDo you wish to alter their score instead? (Y/[N])\n";
-                    cin.clear();
+                    fflush(stdin);
                     if (getchar() != 'Y') break;
                 }
                 students[templl] = tempint;
@@ -61,7 +60,7 @@ STUDENT SCORE MANAGEMENT SYSTEM
                 break;
             case 4:
                 cout << "About to erase all data. Are you sure to proceed? (Y/[N])" << endl;
-                cin.clear();
+                fflush(stdin);
                 if (getchar() == 'Y')
                 {
                     students.clear();
@@ -75,7 +74,7 @@ STUDENT SCORE MANAGEMENT SYSTEM
                 {
                     cout << "No record found with Student " << templl
                          << "\n Do you wish to create a new entry? (Y/[N])\n";
-                    cin.clear();
+                    fflush(stdin);
                     if (getchar() != 'Y') break;
                 }
                 students[templl] = tempint;
@@ -101,23 +100,23 @@ Student No.         Score
             case 8:
                 cout << "Provide a path to which records are to be saved: ";
                 cin >> tempstr;
-                while (!write_file(tempstr))
+                while (tempstr != "CANCEL" and !write_file(tempstr))
                 {
-                    cout << "Error in opening file!\nProvide another path to which records are to be saved: ";
+                    cout << "Error in opening file!\nProvide another path to which records are to be saved, or type in CANCEL: ";
                     cin >> tempstr;
                 }
-                cout << "Data written to file!" << endl;
+                if (tempstr != "CANCEL") cout << "Data written to file!" << endl;
                 break;
             case -1:
                 cout << "Quitting the system!\nDo you want to save current records to external files? ([Y]/N)" << endl;
-                cin.clear();
+                fflush(stdin);
                 if (getchar() != 'N')
                 {
                     cout << "Provide a path to which records are to be saved: ";
                     cin >> tempstr;
-                    while (!write_file(tempstr))
+                    while (tempstr != "CANCEL" and !write_file(tempstr))
                     {
-                        cout << "Error in opening file!\nProvide another path to which records are to be saved: ";
+                        cout << "Error in opening file!\nProvide another path to which records are to be saved, or type in CANCEL: ";
                         cin >> tempstr;
                     }
                 }
@@ -126,9 +125,9 @@ Student No.         Score
                 return;
         }
         cout << "\n\nPress ENTER to continue...";
+        fflush(stdin);
         getchar();
-        cin.clear();
-        system("clear");
+        system("cls");
     }
 }
 
