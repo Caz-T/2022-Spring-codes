@@ -11,14 +11,15 @@ vlint::vlint(vlint &another) : sign(another.sign)
     for (int & iter : another.digit) digit.emplace_back(iter);
 }
 
-int vlint::operator[](int n) {return digit[n];}
 vlint vlint::operator+(vlint another)
 {
     vlint ans(another);
     if (!another.sign) for (int & i : ans.digit) i = -i;
     ans.sign = true;
     for (int i = ans.digit.size() + 1; i <= digit.size(); i++) ans.digit.emplace_back(0);
+    for (int i = digit.size() + 1; i <= ans.digit.size(); i++) digit.emplace_back(0);
     ans.digit.emplace_back(0);
+    digit.emplace_back(0);
     for (int i = 0; i < ans.digit.size() - 1; i++)
     {
         if (sign) ans.digit[i] += digit[i];
@@ -53,6 +54,7 @@ vlint vlint::operator+(vlint another)
         }
     }
     while (ans.digit.back() == 0 and ans.digit.size() > 1) ans.digit.pop_back();
+    while (digit.back() == 0 and digit.size() > 1) digit.pop_back();
     return ans;
 }
 vlint vlint::operator-(vlint another)
