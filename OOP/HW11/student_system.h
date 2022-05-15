@@ -19,7 +19,7 @@ private:
     map<long long, int> students;
     bool read_file(string&);
     bool write_file(string&);
-    static void clrscr(string&);
+    static void clrscr(string msg = "");
 };
 
 
