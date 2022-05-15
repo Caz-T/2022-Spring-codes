@@ -20,6 +20,10 @@ student_system::student_system()
       INPUT -1 TO QUIT
 )";
         cin >> command;
+        system("cls");
+        cout << R"(STUDENT SCORE MANAGEMENT SYSTEM
+-------------------------------
+)";
         string tempstr;
         long long templl;
         int tempint;
@@ -94,6 +98,7 @@ Student No.         Score
                 {
                     cout.width(20);
                     cout.fill(' ');
+                    cout << left;
                     cout << stu.first << stu.second << endl;
                 }
                 break;
@@ -121,12 +126,11 @@ Student No.         Score
                     }
                 }
                 cout << "Thanks for using Student Management System!\nPress ENTER to quit...";
+                fflush(stdin);
                 getchar();
                 return;
         }
-        cout << "\n\nPress ENTER to continue...";
-        fflush(stdin);
-        getchar();
+        system("pause");
         system("cls");
     }
 }
@@ -191,4 +195,10 @@ bool student_system::write_file(string & path)
     for (auto& stu : students) outfile << stu.first << ' ' << stu.second << endl;
     outfile.close();
     return true;
+}
+
+void student_system::clrscr(string& msg)
+{
+    while (getchar() != EOF);
+    cout << msg;
 }
