@@ -45,7 +45,7 @@ void string_validator::run()
             cout << "FOR DEBUGGING PURPOSES ONLY.\nIf you see this, contact me at cqz21@mails.tsinghua.edu.cn.\n";
             return;
         }
-        cout << "Type in a string withOUT spaces, or type END to end this program: \n";
+        cout << "\nType in a string withOUT spaces, or type END to end this program: \n";
         cin >> command;
     }
     system("pause");
@@ -60,6 +60,12 @@ long long string_validator::check_legality(string str)
         if (str.length() == 2 and str[1] == '0') throw EXC_minus_zero();
         ans = -1;
         str = str.substr(1);
+    }
+    if (str[0] == '0')
+    {
+        int i;
+        for (i = 0; i < str.length() and str[i] == '0'; i++);
+        throw EXC_unexpected_zero(i);
     }
     bool decimal_flag = false;
     int temp_pos;
@@ -79,6 +85,7 @@ long long string_validator::check_legality(string str)
         if (ch == '-') throw EXC_minus(i);
         if (not is_num(ch)) throw EXC_bad_char(i, ch);
     }
+    if (decimal_flag) throw EXC_decimal();
     if (str.length() >= 19) throw EXC_overflow();
     return ans * stoll(str);
 }
