@@ -37,7 +37,6 @@ void dfs(int x0)
         else // if that node hasn't been dealt with, then our path is complete and legal,
         {
             pathy.emplace_back(nde); // we still add that node to our path (no longer path-to-be).
-            assert(pathx.size() == pathy.size());
             for (int t = 0; t < pathx.size(); t++) // Then we try to put the path into effect,
             {
                 match[pathy[t]] = pathx[t]; // dealing with a pair of elements, one x and one y, at a time.
@@ -62,7 +61,6 @@ int main()
     while (i--)
     {
         cin >> j >> k;
-        assert(j < nx and k < ny);
         x[j].conn.emplace(k);
         y[k].conn.emplace(j);
     }
@@ -85,7 +83,6 @@ int main()
             continue;
         }
         x[i].mark = 2;
-        assert(pathx.size() == 1 and pathy.empty());
         pathx.clear();
     }
     // working finished
