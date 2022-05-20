@@ -48,7 +48,6 @@ void string_validator::run()
         cout << "\nType in a string withOUT spaces, or type END to end this program: \n";
         cin >> command;
     }
-    system("pause");
 }
 
 bool string_validator::is_num(char ch) {return (ch >= 48) and (ch <= 57);}
