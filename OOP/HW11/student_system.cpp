@@ -20,6 +20,10 @@ student_system::student_system()
       INPUT -1 TO QUIT
 )";
         cin >> command;
+        system("cls");
+        cout << R"(STUDENT SCORE MANAGEMENT SYSTEM
+-------------------------------
+)";
         string tempstr;
         long long templl;
         int tempint;
@@ -42,7 +46,7 @@ student_system::student_system()
                 {
                     cout << "Record already exists: Student " << templl << " has score "
                          << students.find(templl)->second << "\nDo you wish to alter their score instead? (Y/[N])\n";
-                    fflush(stdin);
+                    clrscr();
                     if (getchar() != 'Y') break;
                 }
                 students[templl] = tempint;
@@ -60,7 +64,7 @@ student_system::student_system()
                 break;
             case 4:
                 cout << "About to erase all data. Are you sure to proceed? (Y/[N])" << endl;
-                fflush(stdin);
+                clrscr();
                 if (getchar() == 'Y')
                 {
                     students.clear();
@@ -74,10 +78,11 @@ student_system::student_system()
                 {
                     cout << "No record found with Student " << templl
                          << "\n Do you wish to create a new entry? (Y/[N])\n";
-                    fflush(stdin);
+                    clrscr();
                     if (getchar() != 'Y') break;
                 }
                 students[templl] = tempint;
+                cout << "Entry updated!" << endl;
                 break;
             case 6:
                 cout << "Provide a student number: ";
@@ -94,6 +99,7 @@ Student No.         Score
                 {
                     cout.width(20);
                     cout.fill(' ');
+                    cout << left;
                     cout << stu.first << stu.second << endl;
                 }
                 break;
@@ -107,9 +113,44 @@ Student No.         Score
                 }
                 if (tempstr != "CANCEL") cout << "Data written to file!" << endl;
                 break;
+            case 0:
+                cout << R"(1   Read in data from a file.
+    Should conflicts occur, for each conflict, we will ask you whether to leave the data unmodified or to update it.
+    You can also specify the default action at any time.
+2   Create a new record.
+    If a record exists with that number, we will ask you whether to leave the data unmodified or to update it.
+3   Delete a record.
+    If such record does not exist, this does nothing.
+4   Delete all records. THIS COULD BE DANGEROUS.
+    We recommend you save first. We will also do a double-check before actually clearing all data.
+5   Modify a record by student's id number.
+    If such record does not exist, we will ask you whether to create a new record.
+6   Show the score of the student of a given id number.
+    We will tell you if such doesn't exist.
+7   Show all records.
+8   Save all records to a given file.
+    Note that this overwrites all data in that file.
+    If such file doesn't exist, we will create one first.
+-1  Quit the programme.
+    We will ask whether you want to save the data.
+    )";
+                break;
             case -1:
-                cout << "Quitting the system!\nDo you want to save current records to external files? ([Y]/N)" << endl;
-                fflush(stdin);
+                cout << "Quitting the system!" << endl << endl;
+                cout << R"(
+    SHOWING ALL RECORDS
+Student No.         Score
+
+)";
+                for (auto& stu : students)
+                {
+                    cout.width(20);
+                    cout.fill(' ');
+                    cout << left;
+                    cout << stu.first << stu.second << endl;
+                }
+                cout << "Do you want to save the records above to external files? ([Y]/N)";
+                clrscr();
                 if (getchar() != 'N')
                 {
                     cout << "Provide a path to which records are to be saved: ";
@@ -121,11 +162,11 @@ Student No.         Score
                     }
                 }
                 cout << "Thanks for using Student Management System!\nPress ENTER to quit...";
+                clrscr();
                 getchar();
                 return;
         }
-        cout << "\n\nPress ENTER to continue...";
-        fflush(stdin);
+        clrscr("\nPress ENTER to continue");
         getchar();
         system("cls");
     }
@@ -144,30 +185,34 @@ bool student_system::read_file(string& path)
         if (students.find(templl) == students.end()) students[templl] = tempint;
         else
         {
-            switch(mode)
+            if (students[templl] == tempint) students[templl] = tempint;
+            else
             {
+                switch (mode)
+                {
                 case 0:
                     cout << "Conflict for student " << templl << ":\nCurrent record: score " << students[templl]
-                         << "\nFrom file:      score " << tempint << endl;
+                        << "\nFrom file:      score " << tempint << endl;
                     cout << "How to solve this conflict? (Default = use current)\n";
                     cout << "(use [C]urrent / update from [F]ile / always [S]kip / always [U]pdate): ";
-                    switch(getchar())
+                    clrscr();
+                    switch (getchar())
                     {
 
-                        case 'S':
-                            cout << "Skipping records without asking.\n";
-                            mode = 1;
-                        case 'C':
-                        default:
-                            cout << "Record skipped!" << endl;
-                            break;
-                        case 'U':
-                            cout << "Updating records without asking.\n";
-                            mode = 2;
-                        case 'F':
-                            students[templl] = tempint;
-                            cout << "Record updated!" << endl;
-                            break;
+                    case 'S':
+                        cout << "Skipping records without asking.\n";
+                        mode = 1;
+                    case 'C':
+                    default:
+                        cout << "Record skipped!" << endl;
+                        break;
+                    case 'U':
+                        cout << "Updating records without asking.\n";
+                        mode = 2;
+                    case 'F':
+                        students[templl] = tempint;
+                        cout << "Record updated!" << endl;
+                        break;
                     }
                     break;
                 case 1:
@@ -175,6 +220,7 @@ bool student_system::read_file(string& path)
                 case 2:
                     students[templl] = tempint;
                     break;
+                }
             }
         }
         infile >> templl >> tempint;
@@ -191,4 +237,10 @@ bool student_system::write_file(string & path)
     for (auto& stu : students) outfile << stu.first << ' ' << stu.second << endl;
     outfile.close();
     return true;
+}
+
+void student_system::clrscr(string msg)
+{
+    if (getchar() != '\n') cout << "Error occurred!" << endl;
+    cout << msg;
 }
