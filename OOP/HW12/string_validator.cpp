@@ -13,7 +13,7 @@ void string_validator::run()
     string command;
     cout << "Type in a string withOUT spaces: \n";
     cin >> command;
-    while (command != "end")
+    while (command != "END")
     {
         try {cout << check_legality(command) << " is a valid integer.\n";}
         catch (EXC_bad_char& e)
@@ -54,6 +54,8 @@ void string_validator::run()
 bool string_validator::is_num(char ch) {return (ch >= 48) and (ch <= 57);}
 long long string_validator::check_legality(string str)
 {
+    if (str.length() == 1 and str[0] == '0') return 0;
+    if (str.length() == 2 and str == "0.") return 0;
     long long ans = 1;
     if (str[0] == '-')
     {
@@ -85,7 +87,11 @@ long long string_validator::check_legality(string str)
         if (ch == '-') throw EXC_minus(i);
         if (not is_num(ch)) throw EXC_bad_char(i, ch);
     }
-    if (decimal_flag) throw EXC_decimal();
+    if (decimal_flag)
+    {
+        if (temp_pos != str.length() - 1) throw EXC_decimal();
+        else str = str.substr(0, str.length() - 1);
+    }
     if (str.length() >= 19) throw EXC_overflow();
     return ans * stoll(str);
 }
