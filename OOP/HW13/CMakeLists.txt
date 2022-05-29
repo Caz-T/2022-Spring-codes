@@ -3,4 +3,4 @@ project(HW13)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(HW13 main.cpp double_list.cpp double_list.h student.cpp student.h student_system.cpp student_system.h student_factory.cpp student_factory.h)
+add_executable(HW13 main.cpp double_list.h student.cpp student.h student_system.cpp student_system.h factory.h)

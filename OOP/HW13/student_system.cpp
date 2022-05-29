@@ -3,13 +3,13 @@
 //
 
 #include "student_system.h"
-#include "student_factory.h"
+#include "factory.h"
 #include <iostream>
 using namespace std;
 
 void student_system::run()
 {
-    student_factory fact;
+    factory<student> fact;
     int command = 0;
     while (command != -1)
     {
@@ -28,7 +28,7 @@ void student_system::run()
                     cin >> tempid;
                     if (tempid == 0) break;
                     cin >> tempscore;
-                    student* tempstu = fact.get_student();
+                    student* tempstu = fact.get_node();
                     tempstu->set_id(tempid);
                     tempstu->set_score(tempscore);
                     data.add_node(tempstu);
@@ -44,7 +44,7 @@ void student_system::run()
                     cout << "Student deleted with ID " << tempid << " and score " << temp->score() << endl;
                     temp->prev->next = temp->next;
                     temp->next->prev = temp->prev;
-                    fact.recycle_student(temp);
+                    fact.recycle_node(temp);
                 }
                 break;
             case 3:
@@ -60,7 +60,7 @@ void student_system::run()
                         temp = temp->next;
                         to_delete->prev->next = to_delete->next;
                         to_delete->next->prev = to_delete->prev;
-                        fact.recycle_student(to_delete);
+                        fact.recycle_node(to_delete);
                         flag = false;
                     }
                     else temp = temp->next;
