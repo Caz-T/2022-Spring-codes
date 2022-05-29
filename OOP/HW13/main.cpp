@@ -1,7 +1,9 @@
 #include <iostream>
+#include "student_system.h"
 
 int main()
 {
-    std::cout << "Hello, World!" << std::endl;
+    student_system s;
+    s.run();
     return 0;
 }
