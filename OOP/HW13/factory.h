@@ -23,15 +23,14 @@ private:
 template <typename node>
 node* factory<node>::get_node()
 {
-    node* product = nullptr;
-    product = stock.empty() ? new node : stock.head()->next;
+    node* product = stock.empty() ? new node : stock.head()->next;
     return product;
 }
 
 template <typename node>
 void factory<node>::recycle_node(node * another)
 {
-    stock.add_node(another);
+    stock.add_node(another, false);
 }
 
 #endif //HW13_FACTORY_H

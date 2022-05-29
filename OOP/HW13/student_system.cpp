@@ -5,7 +5,9 @@
 #include "student_system.h"
 #include "factory.h"
 #include <iostream>
+#include <ctime>
 using namespace std;
+bool use_timer = true;
 
 void student_system::run()
 {
@@ -19,6 +21,7 @@ void student_system::run()
         unsigned int tempscore;
         bool flag;
         student* temp = data.head()->next;
+        clock_t begin = -1;
         switch (command)
         {
             case 1:
@@ -26,6 +29,7 @@ void student_system::run()
                 while (true)
                 {
                     cin >> tempid;
+                    if (begin == -1) begin = clock();
                     if (tempid == 0) break;
                     cin >> tempscore;
                     student* tempstu = fact.get_node();
@@ -50,6 +54,7 @@ void student_system::run()
             case 3:
                 cout << "Input a score, data with which score are subject to removal: ";
                 cin >> tempscore;
+                begin = clock();
                 flag = true;
                 while (temp != data.head())
                 {
@@ -106,5 +111,6 @@ void student_system::run()
             default:
                 cout << "Wrong code! " << endl;
         }
+        if (use_timer) cout << "Time consumed: " << double(clock() - begin) / CLOCKS_PER_SEC * 1000 << "ms" << endl;
     }
 }

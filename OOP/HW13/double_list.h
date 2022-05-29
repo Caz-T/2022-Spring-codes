@@ -12,7 +12,7 @@ public:
     double_list();
     ~double_list();
 
-    node* add_node(node*);
+    node* add_node(node*, bool do_sorting = true);
     static void delete_node(node*);
     node* head();
     long long length();
@@ -39,10 +39,11 @@ double_list<node>::~double_list()
 }
 
 template <typename node>
-node* double_list<node>::add_node(node * another)
+node* double_list<node>::add_node(node * another, bool do_sorting)
 {
     node* lugar = sentinel.next;
-    while (*lugar < *another and lugar != &sentinel) lugar = lugar->next;
+    if (do_sorting)
+        while (*lugar < *another and lugar != &sentinel) lugar = lugar->next;
     another->next = lugar;
     lugar = lugar->prev;
     another->prev = lugar;
